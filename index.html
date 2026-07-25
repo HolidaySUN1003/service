@@ -7,8 +7,10 @@
 <style>
   :root{
     --accent:#2F6BFF;--accent-deep:#1F55E0;--accent-soft:#F0F5FF;
+    --grad-a:#2F6BFF;--grad-b:#6A4DFF;
     --ink:#17181C;--ink-2:#5C6272;--ink-3:#9AA0AD;--line:#ECEEF3;
     --err:#F5484B;
+    --ease:cubic-bezier(.2,.6,.2,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%}
@@ -24,58 +26,65 @@
     padding:28px 16px;
   }
 
-  /* ===== 阿里云在线服务同款：480 宽面板 ===== */
-  .panel{width:100%;max-width:480px;background:#fff;border-radius:14px;overflow:hidden;
+  /* ===== 480 宽一体化面板 ===== */
+  .panel{width:100%;max-width:480px;background:#fff;border-radius:16px;overflow:hidden;
     position:relative;box-shadow:0 30px 60px -20px rgba(15,35,90,.5);
     display:flex;flex-direction:column}
 
-  /* 顶部标题栏 */
-  .titlebar{display:flex;align-items:center;gap:10px;padding:13px 18px;
+  /* 门头：品牌 + 使用指南 */
+  .titlebar{display:flex;align-items:center;gap:10px;padding:13px 16px;
     background:linear-gradient(90deg,#EAF1FF 0%,#F6F9FF 60%,#EFEAFF 100%);
     border-bottom:1px solid var(--line)}
-  .titlebar b{font-size:15px;font-weight:600}
-  .titlebar .hot{font-size:12.5px;color:var(--ink-2)}
-  .titlebar .hot a{color:var(--accent);text-decoration:none;font-weight:600}
+  .titlebar .brand{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+  .titlebar .brand img{width:24px;height:24px;border-radius:6px;display:block}
+  .titlebar .brand b{font-size:15px;font-weight:600;white-space:nowrap}
+  .titlebar .guide-link{display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;
+    font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;
+    padding:6px 12px;border-radius:8px;transition:background .15s var(--ease)}
+  .titlebar .guide-link:hover{background:rgba(47,107,255,.08)}
+  .titlebar .guide-link svg{width:14px;height:14px}
 
-  /* 活动横幅（可关闭） */
-  .promo{display:flex;align-items:center;gap:9px;margin:12px 16px 0;padding:9px 12px;
-    background:var(--accent-soft);border-radius:10px;cursor:pointer;transition:.15s}
-  .promo:hover{background:#E7EEFF}
-  .promo .tag{flex:0 0 auto;font-size:10.5px;font-weight:700;color:#fff;background:var(--accent);
-    padding:2px 7px;border-radius:5px;letter-spacing:.5px}
-  .promo b{flex:1;min-width:0;font-size:12.5px;font-weight:500;
+  /* 活动 banner：渐变主视觉，引导自助购 */
+  .promo{position:relative;display:flex;align-items:center;gap:11px;margin:14px 16px 0;
+    padding:13px 14px;border-radius:13px;cursor:pointer;overflow:hidden;
+    background:linear-gradient(120deg,var(--grad-a) 0%,var(--grad-b) 100%);
+    box-shadow:0 10px 22px -10px rgba(58,90,255,.55);
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+  .promo:hover{transform:translateY(-1px);box-shadow:0 14px 26px -10px rgba(58,90,255,.65)}
+  .promo::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);
+    transform:skewX(-20deg);animation:sheen 4.5s var(--ease) infinite}
+  @keyframes sheen{0%,55%{left:-70%}85%,100%{left:130%}}
+  .promo .tag{flex:0 0 auto;font-size:10.5px;font-weight:700;color:#fff;
+    background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);
+    padding:3px 8px;border-radius:6px;letter-spacing:.5px}
+  .promo .txt{flex:1;min-width:0}
+  .promo .txt b{display:block;font-size:13.5px;font-weight:700;color:#fff;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .promo .x{flex:0 0 auto;color:var(--ink-3);font-size:15px;line-height:1;padding:2px 4px;border-radius:5px}
-  .promo .x:hover{color:var(--ink-2);background:rgba(0,0,0,.05)}
+  .promo .txt small{display:block;font-size:10.5px;color:rgba(255,255,255,.78);margin-top:2px}
+  .promo .go{flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;
+    font-size:12px;font-weight:700;color:var(--accent);background:#fff;
+    padding:6px 11px;border-radius:8px;box-shadow:0 3px 8px rgba(10,30,90,.18)}
+  .promo .x{position:absolute;top:4px;right:6px;color:rgba(255,255,255,.75);font-size:13px;
+    line-height:1;padding:3px 5px;border-radius:5px;z-index:2}
+  .promo .x:hover{color:#fff;background:rgba(255,255,255,.15)}
 
-  /* 问候区 */
-  .greet{text-align:center;padding:18px 20px 4px}
-  .greet .avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;
-    background:linear-gradient(135deg,#5B8CFF,#2F6BFF);display:flex;align-items:center;justify-content:center;
-    font-size:26px;box-shadow:0 8px 18px -8px rgba(47,107,255,.7)}
-  .greet h2{font-size:19px;font-weight:700;line-height:1.45}
-  .greet h2 span{color:var(--accent)}
-  .greet p{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+  /* 品牌 logo 区 */
+  .hero{display:flex;justify-content:center;padding:22px 20px 2px}
+  .hero img{width:64px;height:64px;border-radius:16px;display:block;
+    box-shadow:0 10px 24px -10px rgba(10,20,40,.45)}
 
-  /* 三个快捷入口 */
-  .quick{display:flex;gap:10px;padding:14px 16px 4px}
-  .quick a{flex:1;text-decoration:none;color:var(--ink);text-align:center;
-    border:1px solid var(--line);border-radius:11px;padding:12px 4px 10px;transition:.15s;cursor:pointer}
-  .quick a:hover{border-color:#C9D9FF;background:#FAFBFF;transform:translateY(-1px)}
-  .quick .ic{font-size:20px;margin-bottom:5px;line-height:1}
-  .quick .tt{font-size:12.5px;font-weight:600}
-  .quick .dd{font-size:10.5px;color:var(--ink-3);margin-top:2px}
-
-  /* 预约表单（核心） */
-  .sect{padding:16px 16px 18px}
+  /* 预约表单（核心，上移） */
+  .sect{padding:16px 16px 6px}
   .sect .head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
-  .sect .head b{font-size:15px;font-weight:700}
+  .sect .head b{font-size:15.5px;font-weight:700}
   .sect .head small{font-size:11.5px;color:var(--ink-3)}
   .fields{display:flex;flex-direction:column;gap:10px}
   .field label{display:block;font-size:12px;font-weight:600;margin-bottom:5px}
   .field label i{color:var(--err);font-style:normal;margin-left:3px}
   .field input,.field select{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;
-    padding:0 12px;font-size:13.5px;color:var(--ink);background:#fff;outline:none;font-family:inherit;transition:.15s}
+    padding:0 12px;font-size:13.5px;color:var(--ink);background:#fff;outline:none;font-family:inherit;
+    transition:border-color .15s var(--ease),box-shadow .15s var(--ease)}
   .field select{appearance:none;-webkit-appearance:none;color:var(--ink-3);
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239AA0AD' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
@@ -89,9 +98,11 @@
 
   .submit{width:100%;height:46px;margin-top:14px;border:none;cursor:pointer;border-radius:11px;
     background:var(--accent);color:#fff;font-size:14.5px;font-weight:600;
-    display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .15s var(--ease),transform .15s var(--ease);
     box-shadow:0 10px 20px -8px rgba(47,107,255,.6)}
   .submit:hover{background:var(--accent-deep)}
+  .submit:active{transform:scale(.99)}
   .submit:disabled{opacity:.6;cursor:default}
   .submit .ld{width:15px;height:15px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;
     border-radius:50%;animation:sp .7s linear infinite;display:none}
@@ -101,6 +112,24 @@
   .privacy{font-size:10.5px;color:var(--ink-3);text-align:center;margin-top:10px;line-height:1.6}
   .privacy a{color:var(--ink-2);text-decoration:none}
   .privacy a:hover{color:var(--accent)}
+
+  /* 更多服务：三入口（下移但保持分量） */
+  .more{padding:8px 16px 20px}
+  .more .divider{display:flex;align-items:center;gap:10px;margin:12px 0 12px;
+    font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+  .more .divider::before,.more .divider::after{content:"";flex:1;height:1px;background:var(--line)}
+  .quick{display:flex;gap:10px}
+  .quick a{flex:1;text-decoration:none;color:var(--ink);text-align:center;
+    border:1px solid var(--line);border-radius:12px;padding:13px 4px 11px;cursor:pointer;
+    transition:border-color .18s var(--ease),background .18s var(--ease),
+      transform .18s var(--ease),box-shadow .18s var(--ease)}
+  .quick a:hover{border-color:#C9D9FF;background:#FAFBFF;transform:translateY(-2px);
+    box-shadow:0 8px 18px -10px rgba(47,107,255,.35)}
+  .quick .ic{width:34px;height:34px;margin:0 auto 7px;border-radius:10px;
+    background:var(--accent-soft);display:flex;align-items:center;justify-content:center}
+  .quick .ic svg{width:18px;height:18px;stroke:var(--accent)}
+  .quick .tt{display:block;font-size:12.5px;font-weight:600}
+  .quick .dd{display:block;font-size:10.5px;color:var(--ink-3);margin-top:2px}
 
   .toast{position:fixed;left:50%;top:22px;transform:translateX(-50%) translateY(-20px);z-index:70;
     background:rgba(23,24,28,.92);color:#fff;font-size:12.5px;padding:9px 16px;border-radius:20px;
@@ -129,54 +158,48 @@
   @media (max-width:520px){
     body{padding:0;align-items:stretch}
     .panel{max-width:100%;min-height:100dvh;border-radius:0;box-shadow:none}
-    .sect{padding-bottom:26px}
+    .more{padding-bottom:30px}
     .titlebar{padding-top:max(13px, env(safe-area-inset-top))}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .promo::after{animation:none}
   }
 </style>
 </head>
 <body>
   <div class="panel">
 
-    <!-- 顶部标题栏：阿里云同款 -->
+    <!-- 门头：logo 品牌 + 使用指南 -->
     <div class="titlebar">
-      <b>在线服务</b>
-      <span class="hot" id="hotline">服务热线：<a>4008-000-000</a></span>
+      <span class="brand">
+        <img src="data:image/webp;base64,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" alt="千问办公" />
+        <b>千问办公 · 在线服务</b>
+      </span>
+      <a class="guide-link" data-link="guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        使用指南
+      </a>
     </div>
 
-    <!-- 活动横幅（可关闭，点击跳自助购） -->
+    <!-- 活动 banner：主推自助购 -->
     <div class="promo" id="promo">
-      <span class="tag">限时</span>
-      <b>新购首年 5 折，赠 AI 权益包</b>
+      <span class="tag">限时特惠</span>
+      <span class="txt">
+        <b>新购首年 5 折</b>
+        <small>下单即赠 AI 权益包</small>
+      </span>
+      <span class="go">立即抢购
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </span>
       <span class="x" onclick="closePromo(event)">✕</span>
     </div>
 
-    <!-- 问候区 -->
-    <div class="greet">
-      <div class="avatar">👩‍💻</div>
-      <h2>您好，欢迎使用<br/><span>千问办公在线服务</span></h2>
-      <p>自助购买 · 专家预约 · 智能客服，一站式为您服务</p>
+    <!-- 品牌 logo -->
+    <div class="hero">
+      <img src="data:image/webp;base64,UklGRjYNAABXRUJQVlA4WAoAAAAQAAAAjwAAjwAAQUxQSPoDAAABoEVtmyFJ+iL+WNu2bdu2bV/Ztm3btm17x7bZivj/76IapYjbiYgJQE19AIDZ1jr0que+7Tuu1diwOn30/18+ccm+KwcALng0phMPYNUTX+jVyqY59a/HjlgGgPgGcAJgpfO+7SBJS0nNGstMkxpJTvv4tMUBJ/UmgNv91RaSKamxaZrGRHL8o5sBzteT9/AH/0gyJmPTtZRIvr89IK5uBNjte1KTsUlbIvn2RoDUh/NY8QVSlU09GeMdC0BcHQhw2gSqsuknsv/egK9ZwCKvkok5tEjeNSukRoIt+zMaM6nK71ZEqIUTHNPGyIxGjtgWoXpOcAGpzGpi6yEI1XKC66nGzCrtaIQqCW5gNGZXjUchVCXgAkZjhlX1AIQqBBzFZMyyWsvmkB4JNm9TY6aVw5aC74F3Cw2kMtuJXwZx3RO8ycSMR94A6ZbgZEbm3JJuDemGd8tOUs0alf/P4V038DITMx95JaQLwc5MzL3ptBWd78T58FMBMPFZSCeCA5iYf9P2NSEVTn4uAiY+Aw9AsCuVJWjWuhI84PE6UxEw8joIPFZoMSsD5cDZ4QLOZ2QhKvdBcO57plKI9iQEK3fQSkE5bE7gZCYWo3FL4IWSiLwUs/WmlkPi+1irjVYOysFzH0JjORrb172KqSBoPOj5ski8+FtqWTzYl1YSyjfHlca3LSxK5Z9WFsZenOG/GX/T4pheFso/RtPK4qvepfH6l9SSSLz3SaaSUJ57UVkY99mXVhDGltVWmkYrB2Wf2Wb6i1oOia8BjzKWQ+SZwOFM5WC2AbDkdFopKPvMAodPLZVC5L0IAaexGIzbQDwWmUArA+WfwQGCRxnLIPEshIpNVIvAbNKicAA8PmIqgcTbIAAg2J5aAGaTl3S+Ah7vM+Uv8TYIOhWs36GWO9VRCznfGQR3MuUu8hQIunR+/iGmeUv8MojrCoI9GC1nptNWhUd3BXcz5izyNAi67WTWH5jyFfksBD30WH40NVeJv8/lXU8g2LbdNE+Jw5eHR88DDlHVHCknbwRBNQOOpml+EqduD0F1A45Sam4SJ2+PgGoHHDydMS+RQzdGQPUDthrKmBFL/HkFBNQyYJnPaZqLRD49FwS1FYQbjdFyYIlTzgA8au2B7f8hU9OzSH62NrxD7Z1gjiumkMmamUVy+OkOgvoUYNUnlIzarDSRU25eBM6jXp0AmzzVQmrS5qPRyLF3rAwI6tl7YNVr+pG0mNSahWmKJPn7OUsA4lDnXoDZ9nliCCtNk6paA6tqUmNlr7u3FUA8GtALgLm2uuS9gW1sktN7vXbmRrMAEIcGdSIAMM96h1z8wFvf/tmrcf/7/etX7zln39VnAwARh5oCVlA4IBYJAAAwLwCdASqQAJAAPj0ci0QiIaEU+KVcIAPEoA11nvXx4Z/o/OBr/9r/F3FpnL7Q/4HSM8wD9HP8h1UfML/M/8B6zfpR/3fqAf5TzwPZF/WD2APLd9j/9wP3V9mv//5rl3Ff4jltUi/3R/XcNu1H/d/yv4HgAH5L/RP97xraSCdd/sf+5/jvO/9Ef933Af5p/V/+l2PP2k9nb9qjRgBaw3/1HutVHozYDKziOWb2D6F6TrDS7fBITmrbiGJvYUyRz/apFi30b8II8ticTquTTsu8E+UzL1aTTYboJ48gwf6uPTj8272bSaiClhZNPOGUzRiIhYijkHbr5HkDJEre9CCyCK3Y5/IHWpPE0RM0e/Bp1w3pzbKH7tn+LdrME0TYHbrYN0J4H/QR/gAjSOcOm8EJR0GzAql5ge5Z+tpuapb/WsBvQO2xqe0fEFZBpUIWvH7dgRksjconvHRjazSFL139MRzpLvX5+7n3mta/o6VWW91N32f4x0J9YO7dDox/U8unAAD+/5dheJVutEtK/yhyqJG/cRqfRNpEf3QZfjwLmNwKdF2593v4yybeUiOoE4QdFxUUP1yrXyQSHabSlWUrpFBe5mYbOoJe2XNtp5MzI7ZILTgXxTMsYzPa1MNm84GNRaGHMVnqiiVs0RaGjKpzjify409eCY8ONf3W6/zp2/zvRp8eGwCm16LD9SS58e9zTQuTzVp/KZ3a+C8xCZ4qH41Pd+rRoaKbjzCPzD+05ijvr1Xcuw0ym8FvOcxdWLcniNFsFvN/Qwk+O22qK7Z/wCoO4VYC6Q4eSZMYZlcYPWC28PCsqrXZpDWucW8XmihrM0MI2Yt0AcOX91I1fZv/UI9HWvjWBtyV6wk8W8yQHKG6BILvpjZ2BCjNM1I9s6hbZiUDk5+UpoLfyjY/fFQHm0VRgNhuhtvL5PhR0cURP58Wnr5fs29FGeOVm28HWIF0A9oXTlOQwsq9pkKzS/F/UIbobSwujvijYuh1MX/l4Xia175dtmh4TO9D3fgEFQk1asjAMV8r+REAcw0yUHMouGDsFtSu31Bb2dPJVQbRdnHxeYNteUjJqLB6+iQ7TqILXruQ07doNaCtVOIH/UV1Au88qfZ4yYp8Ycl0ilTVdTaf09LyzO8pLpa9qyIGtOr/5I1l0M9rMORCRVu+LcmrbR0id2R4n6EPCiZryel8YVRF5GCYp3GXOnlMfuTPjC5n2NHd5u7KayIxJotTtm1yPM3mwMT8LFCY/07PJKMIS+J9tRqU4TtUqx4srCB7+aduMBLEhb5mlB94Fl6Zp6QRD0QFzrOPhLAVHz9w8FTuFjnykrVbX7NtobjQJ653N/38Eb+4NT2BnvYPboeS1Dwdk/bvfg5dDv+4PwikA1wiYW7jhWEKhfWpPwS2Epho3ZJwE3ElFfP2xtHRZkZeXZykeKvpNVEMOaaTaYnvgAs10we5cBHG1BwWXA5355bbi1A/pnnRtaxu86MO790AZAl164T+57xn9I7I+akAWOZXP8Gy1r67K8JTYy4dMak3YZrcX1BBveOqcM3i7GryOeQ3JUKsvp9JSCApOeWLMhqwKXkIvjtEUABUJ4s6/eRhL/8Nf/6up1if73KgD3vikrxgT7RkxY1/gY3kbdCE6aApYjxHJJol+AZQBG2+fAOIBDAhB4RSgkBOPpE+d/EyOiIGm5rbuZQPB3E9PjgjkwgKRrpT1MVvW3km/fu2U9hD+CbsBpJ7SESyZXxSSl4I4nQDvmQJS+mlN+UihmP+0c6TH3nhb76MMq+/LwXR/FHcCHkLyAQkPPdnSdIhAYxGvr7eoRqE7YD8b0K6N3igJBbHvi3mo1DWHj+67hmshDVIqpB0cUElJ/h93/k6NKduKVebB5XhGAAb8qxS5xvLIx89tz+zyUfl4HJATTEdolfJrWAZHxEIqkfsXTKG8vll4xe44fgYAIvkUY0B7X2EF1Vbaq4xtVHpl7p5CqhgRizkVdCkzKXFygRArLuF9dVxCs6EdtyN0C1kQe6Ch+LVf6qtNWKO2IzXYlA8YCfJrz/q1r5sfOooOkhQYZzJaPBb8spq8u8WIs+YiAU4be8+2hZT+609/77lV3JKw3swjY0XfF1zG33QF/y65tE/x92n+eQBgx713KsNd+E8HNQuGJi/WWpEtm/bGnFKnEpYCNi6NZeiPhNVlFbRCVS8LozUfXCd3uUCkSbR+RE6ilLmdsYuZRZMD56+4tOPd6vXY1qDcQwG7lEvn6kBVQ6BPhiNMOaaLyvd8yQoY3jw9LWpwrWm/nf+YThcmHyrL+LpKfki9StJT6nTyThQ0PdmJ6gNK08xYPR0Am+ASgsj9nQXtHLJDai+UPBL1/+SPoh3kbt40Az2Zfn5U/3/7B02bgcPhAWPk9UrIUfutUD+TbD/0GjCBNnWxqP42GmAyf6hWMQmAD0mASKW/RbhO+bfk0xhQaydP+iLF6KVJFeQVrd//cP32jk8QMEMn6q0dzS7jq9shLL1/xn/mLPsnxL59f9e7R0wFxygZzSDHhahcHh8wQcDs3JqmsG0B51X7qjcgQSH+fn34bhlXH3B2ZRC4TPlQzeJG+W0glmiyrQiR04opLaHuMq7UJ1Fpkk+KVuaHA5iRNa5qtZ4Y+2L961bBR1QBukSxgngYOtl5cmXxGYo5ob5xYYZhdHf1Wm8W/l7qydlfKZVEDBPKkHfcVjbE+fKLBjeQ6vwthDejACxJi+TCjXazEzcK7GY1Ia6xv7g32bHhOigBqpmZxsQiARUZ4m9fotWBihLpabL16zAUjg9Y95RyNy9JaUmjoZxksvUzpdLNKcbk7YJXo3n6BX52b5M4YO6/mG2HhxqcTqFL8Z/W+ZZ7n18FVI2BAXb8ca8ZYh3q88XjrmWBoWr7VMCUNlseN+u4rngBGvSXz9GHG/Dx8wxBSkQqD6X8X1Dcps+yQbF9BzxeBtBxpURCuJXM9yN3aUt14QKUgNlWapejpeTCP/ach6tLwzqcEvsvcJ5l2sIHlAnPznu++P2ET+APgEC74ITpnhCPo6LrCcL9UBlq6ukyiBDo5bKIzAmynY1ClcuM/imsHoxLEHohvqvsgFXRO9QAAAAAAAA" alt="千问办公" />
     </div>
 
-    <!-- 三个快捷入口（跳转链接，上线前替换 LINKS 配置即可） -->
-    <div class="quick">
-      <a data-link="purchase">
-        <div class="ic">🛒</div>
-        <div class="tt">自助购</div>
-        <div class="dd">首年 5 折起</div>
-      </a>
-      <a data-link="guide">
-        <div class="ic">📘</div>
-        <div class="tt">操作指南</div>
-        <div class="dd">快速上手</div>
-      </a>
-      <a data-link="aics">
-        <div class="ic">🎧</div>
-        <div class="tt">AI 客服</div>
-        <div class="dd">即时解答</div>
-      </a>
-    </div>
-
-    <!-- 核心：服务预约 -->
+    <!-- 核心：预约专属服务 -->
     <div class="sect">
       <div class="head"><b>预约专属服务</b><small>专家 1 对 1 联系您，助您快速用好千问办公</small></div>
 
@@ -214,14 +237,36 @@
       <div class="privacy">提交即视为同意 <a data-link="privacy">《隐私政策》</a>，我们仅用于服务联系</div>
     </div>
 
+    <!-- 更多服务：一键购买 / 操作指南 / 在线咨询 -->
+    <div class="more">
+      <div class="divider">更多自助服务</div>
+      <div class="quick">
+        <a data-link="purchase">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/><path d="M2.5 3h2l2.4 12.3a2 2 0 0 0 2 1.7h9.4a2 2 0 0 0 2-1.6L22 7H6"/></svg></span>
+          <span class="tt">一键购买</span>
+          <span class="dd">首年 5 折起</span>
+        </a>
+        <a data-link="guide">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+          <span class="tt">操作指南</span>
+          <span class="dd">快速上手</span>
+        </a>
+        <a data-link="aics">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-3.9-.9L3 20l1-4.9a8.3 8.3 0 0 1-1-4A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span>
+          <span class="tt">在线咨询</span>
+          <span class="dd">即时解答</span>
+        </a>
+      </div>
+    </div>
+
     <!-- 提交成功态 -->
     <div class="done" id="done">
       <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
       <h4>提交成功</h4>
-      <p>已收到您的预约，专属顾问会尽快与您联系。<br/>如需即时沟通，可咨询 AI 客服。</p>
+      <p>已收到您的预约，专属顾问会尽快与您联系。<br/>如需即时沟通，可发起在线咨询。</p>
       <div class="btns">
         <button class="again" onclick="resetForm()">再填一条</button>
-        <a class="kefu" data-link="aics">咨询客服</a>
+        <a class="kefu" data-link="aics">在线咨询</a>
       </div>
     </div>
 
@@ -230,14 +275,13 @@
   <div class="toast" id="toast">正在打开新页面…</div>
 
 <script>
-  /* ① 链接与热线集中管理：上线只改这几处（暂时都先跳官网） */
+  /* ① 链接集中管理：上线只改这几处（暂时都先跳官网） */
   const LINKS = {
-    purchase: "https://www.dingtalk.com/",   // 自助购 / 价格规则
-    guide:    "https://www.dingtalk.com/",   // 操作指南
+    purchase: "https://www.dingtalk.com/",   // 一键购买 / 价格规则
+    guide:    "https://www.dingtalk.com/",   // 使用指南 / 操作指南（暂跳官网）
     privacy:  "https://www.dingtalk.com/",   // 隐私政策
-    aics:     "https://smart-customer.dingtalk.com/smart/session?channelCode=93d799717a774c65b25183a635e7a39a" // AI 客服
+    aics:     "https://smart-customer.dingtalk.com/smart/session?channelCode=93d799717a774c65b25183a635e7a39a" // 在线咨询
   };
-  const HOTLINE = "4008-000-000"; // 服务热线，待提供后替换
 
   /* ② 数据收集接口（阿里云函数计算，写入钉钉多维表；已开全域跨域，任意来源均可提交） */
   const COLLECT = {
@@ -248,9 +292,6 @@
   const form = document.getElementById("form");
   const btn  = document.getElementById("submitBtn");
   const toast= document.getElementById("toast");
-
-  document.getElementById("hotline").innerHTML =
-    '服务热线：<a href="tel:' + HOTLINE.replace(/-/g,"") + '">' + HOTLINE + "</a>";
 
   document.querySelectorAll("a[data-link]").forEach(a=>{
     a.href = LINKS[a.dataset.link]; a.target="_blank"; a.rel="noopener";
@@ -317,15 +358,14 @@
     btn.classList.remove("loading"); btn.disabled = false;
 
     if(ok){ showDone(); }
-    else{ showToast("网络异常，请稍后重试或咨询 AI 客服"); }
+    else{ showToast("网络异常，请稍后重试或发起在线咨询"); }
   }
 
   function showDone(){ document.getElementById("done").classList.add("show"); }
   function resetForm(){
+    document.getElementById("done").classList.remove("show");
     form.reset();
     form.querySelector("select[name=size]").classList.remove("filled");
-    document.getElementById("done").classList.remove("show");
-    form.phone.focus();
   }
 </script>
 </body>
