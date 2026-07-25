@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>千问办公 · 在线服务</title>
+<style>
+  :root{
+    --accent:#2F6BFF;--accent-deep:#1F55E0;--accent-soft:#F0F5FF;
+    --ink:#17181C;--ink-2:#5C6272;--ink-3:#9AA0AD;--line:#ECEEF3;
+    --err:#F5484B;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    color:var(--ink);-webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(255,255,255,.18), transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, rgba(120,170,255,.35), transparent 55%),
+      linear-gradient(160deg,#2F6BFF 0%,#1E4FD0 55%,#1740A8 100%);
+    min-height:100vh;min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    padding:28px 16px;
+  }
+
+  /* ===== 阿里云在线服务同款：480 宽面板 ===== */
+  .panel{width:100%;max-width:480px;background:#fff;border-radius:14px;overflow:hidden;
+    position:relative;box-shadow:0 30px 60px -20px rgba(15,35,90,.5);
+    display:flex;flex-direction:column}
+
+  /* 顶部标题栏 */
+  .titlebar{display:flex;align-items:center;gap:10px;padding:13px 18px;
+    background:linear-gradient(90deg,#EAF1FF 0%,#F6F9FF 60%,#EFEAFF 100%);
+    border-bottom:1px solid var(--line)}
+  .titlebar b{font-size:15px;font-weight:600}
+  .titlebar .hot{font-size:12.5px;color:var(--ink-2)}
+  .titlebar .hot a{color:var(--accent);text-decoration:none;font-weight:600}
+
+  /* 活动横幅（可关闭） */
+  .promo{display:flex;align-items:center;gap:9px;margin:12px 16px 0;padding:9px 12px;
+    background:var(--accent-soft);border-radius:10px;cursor:pointer;transition:.15s}
+  .promo:hover{background:#E7EEFF}
+  .promo .tag{flex:0 0 auto;font-size:10.5px;font-weight:700;color:#fff;background:var(--accent);
+    padding:2px 7px;border-radius:5px;letter-spacing:.5px}
+  .promo b{flex:1;min-width:0;font-size:12.5px;font-weight:500;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .promo .x{flex:0 0 auto;color:var(--ink-3);font-size:15px;line-height:1;padding:2px 4px;border-radius:5px}
+  .promo .x:hover{color:var(--ink-2);background:rgba(0,0,0,.05)}
+
+  /* 问候区 */
+  .greet{text-align:center;padding:18px 20px 4px}
+  .greet .avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;
+    background:linear-gradient(135deg,#5B8CFF,#2F6BFF);display:flex;align-items:center;justify-content:center;
+    font-size:26px;box-shadow:0 8px 18px -8px rgba(47,107,255,.7)}
+  .greet h2{font-size:19px;font-weight:700;line-height:1.45}
+  .greet h2 span{color:var(--accent)}
+  .greet p{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+
+  /* 三个快捷入口 */
+  .quick{display:flex;gap:10px;padding:14px 16px 4px}
+  .quick a{flex:1;text-decoration:none;color:var(--ink);text-align:center;
+    border:1px solid var(--line);border-radius:11px;padding:12px 4px 10px;transition:.15s;cursor:pointer}
+  .quick a:hover{border-color:#C9D9FF;background:#FAFBFF;transform:translateY(-1px)}
+  .quick .ic{font-size:20px;margin-bottom:5px;line-height:1}
+  .quick .tt{font-size:12.5px;font-weight:600}
+  .quick .dd{font-size:10.5px;color:var(--ink-3);margin-top:2px}
+
+  /* 预约表单（核心） */
+  .sect{padding:16px 16px 18px}
+  .sect .head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+  .sect .head b{font-size:15px;font-weight:700}
+  .sect .head small{font-size:11.5px;color:var(--ink-3)}
+  .fields{display:flex;flex-direction:column;gap:10px}
+  .field label{display:block;font-size:12px;font-weight:600;margin-bottom:5px}
+  .field label i{color:var(--err);font-style:normal;margin-left:3px}
+  .field input,.field select{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;
+    padding:0 12px;font-size:13.5px;color:var(--ink);background:#fff;outline:none;font-family:inherit;transition:.15s}
+  .field select{appearance:none;-webkit-appearance:none;color:var(--ink-3);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239AA0AD' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+  .field select.filled{color:var(--ink)}
+  .field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .field input::placeholder{color:var(--ink-3)}
+  .field.err input{border-color:var(--err);box-shadow:0 0 0 3px rgba(245,72,75,.12)}
+  .field .msg{font-size:11px;color:var(--err);margin-top:4px;display:none}
+  .field.err .msg{display:block}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  .submit{width:100%;height:46px;margin-top:14px;border:none;cursor:pointer;border-radius:11px;
+    background:var(--accent);color:#fff;font-size:14.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;
+    box-shadow:0 10px 20px -8px rgba(47,107,255,.6)}
+  .submit:hover{background:var(--accent-deep)}
+  .submit:disabled{opacity:.6;cursor:default}
+  .submit .ld{width:15px;height:15px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;
+    border-radius:50%;animation:sp .7s linear infinite;display:none}
+  .submit.loading .ld{display:block}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  .privacy{font-size:10.5px;color:var(--ink-3);text-align:center;margin-top:10px;line-height:1.6}
+  .privacy a{color:var(--ink-2);text-decoration:none}
+  .privacy a:hover{color:var(--accent)}
+
+  .toast{position:fixed;left:50%;top:22px;transform:translateX(-50%) translateY(-20px);z-index:70;
+    background:rgba(23,24,28,.92);color:#fff;font-size:12.5px;padding:9px 16px;border-radius:20px;
+    opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;max-width:90%}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* 提交成功态 */
+  .done{position:absolute;inset:0;z-index:20;background:#fff;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:6px;padding:36px 28px;text-align:center;
+    opacity:0;pointer-events:none;transition:.25s}
+  .done.show{opacity:1;pointer-events:auto}
+  .done .ok{width:66px;height:66px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+  .done .ok svg{width:34px;height:34px}
+  .done h4{font-size:18px;font-weight:600}
+  .done p{font-size:13px;color:var(--ink-2);line-height:1.7;margin-top:6px}
+  .done .btns{display:flex;gap:10px;margin-top:20px}
+  .done .btns a,.done .btns button{height:40px;padding:0 20px;border-radius:10px;font-size:13.5px;font-weight:600;
+    cursor:pointer;display:inline-flex;align-items:center;transition:.15s;text-decoration:none}
+  .done .again{border:1px solid #D5E1FF;background:#fff;color:var(--accent)}
+  .done .again:hover{background:var(--accent-soft)}
+  .done .kefu{border:none;background:var(--accent);color:#fff}
+  .done .kefu:hover{background:var(--accent-deep)}
+
+  /* 手机端全屏铺开 */
+  @media (max-width:520px){
+    body{padding:0;align-items:stretch}
+    .panel{max-width:100%;min-height:100dvh;border-radius:0;box-shadow:none}
+    .sect{padding-bottom:26px}
+    .titlebar{padding-top:max(13px, env(safe-area-inset-top))}
+  }
+</style>
+</head>
+<body>
+  <div class="panel">
+
+    <!-- 顶部标题栏：阿里云同款 -->
+    <div class="titlebar">
+      <b>在线服务</b>
+      <span class="hot" id="hotline">服务热线：<a>4008-000-000</a></span>
+    </div>
+
+    <!-- 活动横幅（可关闭，点击跳自助购） -->
+    <div class="promo" id="promo">
+      <span class="tag">限时</span>
+      <b>新购首年 5 折，赠 AI 权益包</b>
+      <span class="x" onclick="closePromo(event)">✕</span>
+    </div>
+
+    <!-- 问候区 -->
+    <div class="greet">
+      <div class="avatar">👩‍💻</div>
+      <h2>您好，欢迎使用<br/><span>千问办公在线服务</span></h2>
+      <p>自助购买 · 专家预约 · 智能客服，一站式为您服务</p>
+    </div>
+
+    <!-- 三个快捷入口（跳转链接，上线前替换 LINKS 配置即可） -->
+    <div class="quick">
+      <a data-link="purchase">
+        <div class="ic">🛒</div>
+        <div class="tt">自助购</div>
+        <div class="dd">首年 5 折起</div>
+      </a>
+      <a data-link="guide">
+        <div class="ic">📘</div>
+        <div class="tt">操作指南</div>
+        <div class="dd">快速上手</div>
+      </a>
+      <a data-link="aics">
+        <div class="ic">🎧</div>
+        <div class="tt">AI 客服</div>
+        <div class="dd">即时解答</div>
+      </a>
+    </div>
+
+    <!-- 核心：服务预约 -->
+    <div class="sect">
+      <div class="head"><b>预约专属服务</b><small>专家 1 对 1 联系您，助您快速用好千问办公</small></div>
+
+      <form class="fields" id="form" autocomplete="on" novalidate>
+        <div class="field" id="f-phone">
+          <label>手机号<i>*</i></label>
+          <input type="tel" name="phone" inputmode="numeric" maxlength="11" placeholder="请输入 11 位手机号" />
+          <div class="msg">请输入正确的 11 位手机号</div>
+        </div>
+        <div class="field" id="f-company">
+          <label>企业名称</label>
+          <input type="text" name="company" maxlength="40" placeholder="请输入公司全称" />
+        </div>
+        <div class="grid2">
+          <div class="field" id="f-size">
+            <label>公司规模</label>
+            <select name="size">
+              <option value="" disabled selected hidden>请选择</option>
+              <option value="1-99人">1-99 人</option>
+              <option value="100-499人">100-499 人</option>
+              <option value="500-999人">500-999 人</option>
+              <option value="1000人以上">1000 人以上</option>
+            </select>
+          </div>
+          <div class="field" id="f-title">
+            <label>职位</label>
+            <input type="text" name="title" maxlength="30" placeholder="如：IT 负责人" />
+          </div>
+        </div>
+      </form>
+
+      <button class="submit" id="submitBtn" type="button" onclick="submitForm()">
+        <span class="ld"></span><span class="tx">提交预约</span>
+      </button>
+      <div class="privacy">提交即视为同意 <a data-link="privacy">《隐私政策》</a>，我们仅用于服务联系</div>
+    </div>
+
+    <!-- 提交成功态 -->
+    <div class="done" id="done">
+      <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h4>提交成功</h4>
+      <p>已收到您的预约，专属顾问会尽快与您联系。<br/>如需即时沟通，可咨询 AI 客服。</p>
+      <div class="btns">
+        <button class="again" onclick="resetForm()">再填一条</button>
+        <a class="kefu" data-link="aics">咨询客服</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast">正在打开新页面…</div>
+
+<script>
+  /* ① 链接与热线集中管理：上线只改这几处（暂时都先跳官网） */
+  const LINKS = {
+    purchase: "https://www.dingtalk.com/",   // 自助购 / 价格规则
+    guide:    "https://www.dingtalk.com/",   // 操作指南
+    privacy:  "https://www.dingtalk.com/",   // 隐私政策
+    aics:     "https://smart-customer.dingtalk.com/smart/session?channelCode=93d799717a774c65b25183a635e7a39a" // AI 客服
+  };
+  const HOTLINE = "4008-000-000"; // 服务热线，待提供后替换
+
+  /* ② 数据收集接口（阿里云函数计算，写入钉钉多维表；已开全域跨域，任意来源均可提交） */
+  const COLLECT = {
+    endpoint: "https://service-collect-epzugxibfs.cn-hangzhou.fcapp.run",
+    fallbackFormUrl: "https://docs.dingtalk.com/notable/share/form/v01ABmOoW583KpEyOaw_hERWDMS_NdrCUBS?source=link"
+  };
+
+  const form = document.getElementById("form");
+  const btn  = document.getElementById("submitBtn");
+  const toast= document.getElementById("toast");
+
+  document.getElementById("hotline").innerHTML =
+    '服务热线：<a href="tel:' + HOTLINE.replace(/-/g,"") + '">' + HOTLINE + "</a>";
+
+  document.querySelectorAll("a[data-link]").forEach(a=>{
+    a.href = LINKS[a.dataset.link]; a.target="_blank"; a.rel="noopener";
+    a.addEventListener("click", ()=> showToast("正在打开新页面…"));
+  });
+  document.getElementById("promo").addEventListener("click", e=>{
+    if(e.target.classList.contains("x")) return;
+    showToast("正在打开新页面…");
+    window.open(LINKS.purchase, "_blank", "noopener");
+  });
+  function closePromo(e){ e.stopPropagation(); document.getElementById("promo").style.display="none"; }
+  function showToast(msg){ toast.textContent=msg; toast.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>toast.classList.remove("show"),1800); }
+
+  form.querySelector("select[name=size]").addEventListener("change", e=>{
+    e.target.classList.toggle("filled", !!e.target.value);
+  });
+  form.querySelector("input[name=phone]").addEventListener("input", ()=> document.getElementById("f-phone").classList.remove("err"));
+
+  async function submitForm(){
+    const phone   = form.phone.value.trim();
+    const company = form.company.value.trim();
+    const size    = form.size.value;
+    const title   = form.title.value.trim();
+
+    if(!/^1[3-9]\d{9}$/.test(phone)){
+      document.getElementById("f-phone").classList.add("err");
+      form.phone.focus();
+      return;
+    }
+
+    const payload = {
+      phone, company, size, title,
+      submittedAt: new Date().toISOString(),
+      source: (location.href || "push-link"),
+      ua: navigator.userAgent
+    };
+
+    if(!COLLECT.endpoint){
+      showToast("即将打开预约确认页…");
+      window.open(COLLECT.fallbackFormUrl, "_blank", "noopener");
+      showDone();
+      return;
+    }
+
+    btn.classList.add("loading"); btn.disabled = true;
+    let ok = false;
+    try{
+      const r = await fetch(COLLECT.endpoint, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(payload)
+      });
+      ok = r.ok;
+    }catch(err){
+      try{
+        await fetch(COLLECT.endpoint, {
+          method:"POST", mode:"no-cors",
+          headers:{"Content-Type":"text/plain;charset=UTF-8"},
+          body:JSON.stringify(payload)
+        });
+        ok = true;
+      }catch(e2){ ok = false; }
+    }
+    btn.classList.remove("loading"); btn.disabled = false;
+
+    if(ok){ showDone(); }
+    else{ showToast("网络异常，请稍后重试或咨询 AI 客服"); }
+  }
+
+  function showDone(){ document.getElementById("done").classList.add("show"); }
+  function resetForm(){
+    form.reset();
+    form.querySelector("select[name=size]").classList.remove("filled");
+    document.getElementById("done").classList.remove("show");
+    form.phone.focus();
+  }
+</script>
+</body>
+</html>
