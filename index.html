@@ -13,22 +13,38 @@
     --ease:cubic-bezier(.2,.6,.2,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
     color:var(--ink);-webkit-font-smoothing:antialiased;
     background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(255,255,255,.18), transparent 60%),
-      radial-gradient(900px 500px at 110% 10%, rgba(120,170,255,.35), transparent 55%),
-      linear-gradient(160deg,#2F6BFF 0%,#1E4FD0 55%,#1740A8 100%);
+      radial-gradient(1100px 560px at 12% -8%, rgba(255,236,190,.55), transparent 60%),
+      radial-gradient(900px 520px at 108% 12%, rgba(214,226,255,.6), transparent 55%),
+      radial-gradient(760px 480px at 50% 115%, rgba(255,224,178,.35), transparent 60%),
+      linear-gradient(165deg,#FDFBF6 0%,#F7F4EE 45%,#F2EFFA 100%);
     min-height:100vh;min-height:100dvh;
-    display:flex;align-items:center;justify-content:center;
+    display:flex;justify-content:center;
     padding:28px 16px;
   }
 
+  /* 洒金动态背景（面板之下的氛围层） */
+  .gold{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .gold i{position:absolute;bottom:-3vh;display:block;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #FFF3C9 0%, #F5CE6B 45%, #D9A63C 100%);
+    box-shadow:0 0 6px 1px rgba(233,190,90,.55);
+    opacity:0;animation:rise linear infinite, glint ease-in-out infinite alternate}
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0);opacity:0}
+    8%{opacity:var(--o,.7)}
+    88%{opacity:var(--o,.7)}
+    100%{transform:translateY(-108vh) translateX(var(--dx,0px));opacity:0}
+  }
+  @keyframes glint{from{filter:brightness(.85)}to{filter:brightness(1.35)}}
+
   /* ===== 480 宽一体化面板 ===== */
   .panel{width:100%;max-width:480px;background:#fff;border-radius:16px;overflow:hidden;
-    position:relative;box-shadow:0 30px 60px -20px rgba(15,35,90,.5);
+    position:relative;z-index:1;margin:auto;
+    box-shadow:0 24px 55px -22px rgba(122,98,36,.28),0 4px 16px -6px rgba(60,60,90,.08);
+    border:1px solid rgba(228,220,200,.7);
     display:flex;flex-direction:column}
 
   /* 门头：品牌 + 使用指南 */
@@ -130,6 +146,7 @@
   .quick .ic svg{width:18px;height:18px;stroke:var(--accent)}
   .quick .tt{display:block;font-size:12.5px;font-weight:600}
   .quick .dd{display:block;font-size:10.5px;color:var(--ink-3);margin-top:2px}
+  .pricenote{margin-top:12px;font-size:10.5px;color:var(--ink-3);text-align:center;line-height:1.8}
 
   .toast{position:fixed;left:50%;top:22px;transform:translateX(-50%) translateY(-20px);z-index:70;
     background:rgba(23,24,28,.92);color:#fff;font-size:12.5px;padding:9px 16px;border-radius:20px;
@@ -156,17 +173,20 @@
 
   /* 手机端全屏铺开 */
   @media (max-width:520px){
-    body{padding:0;align-items:stretch}
-    .panel{max-width:100%;min-height:100dvh;border-radius:0;box-shadow:none}
+    body{padding:0}
+    .panel{max-width:100%;min-height:100dvh;border-radius:0;box-shadow:none;border:none;margin:0}
+    .gold{display:none}
     .more{padding-bottom:30px}
     .titlebar{padding-top:max(13px, env(safe-area-inset-top))}
   }
   @media (prefers-reduced-motion:reduce){
     .promo::after{animation:none}
+    .gold{display:none}
   }
 </style>
 </head>
 <body>
+  <div class="gold" id="gold" aria-hidden="true"></div>
   <div class="panel">
 
     <!-- 门头：logo 品牌 + 使用指南 -->
@@ -177,18 +197,18 @@
       </span>
       <a class="guide-link" data-link="guide">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        使用指南
+        产品介绍
       </a>
     </div>
 
-    <!-- 活动 banner：主推自助购 -->
+    <!-- 活动 banner：新品上线 · 订阅升级 -->
     <div class="promo" id="promo">
-      <span class="tag">限时特惠</span>
+      <span class="tag">新品上线</span>
       <span class="txt">
-        <b>新购首年 5 折</b>
-        <small>下单即赠 AI 权益包</small>
+        <b>连续包月 8 折，76 元/月起</b>
+        <small>年付 7 折更划算 · 标准版 806 元/年起</small>
       </span>
-      <span class="go">立即抢购
+      <span class="go">订阅升级
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </span>
       <span class="x" onclick="closePromo(event)">✕</span>
@@ -237,25 +257,29 @@
       <div class="privacy">提交即视为同意 <a data-link="privacy">《隐私政策》</a>，我们仅用于服务联系</div>
     </div>
 
-    <!-- 更多服务：一键购买 / 操作指南 / 在线咨询 -->
+    <!-- 更多服务：订阅升级 / 产品介绍 / 在线咨询 -->
     <div class="more">
       <div class="divider">更多自助服务</div>
       <div class="quick">
         <a data-link="purchase">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/><path d="M2.5 3h2l2.4 12.3a2 2 0 0 0 2 1.7h9.4a2 2 0 0 0 2-1.6L22 7H6"/></svg></span>
-          <span class="tt">一键购买</span>
-          <span class="dd">首年 5 折起</span>
+          <span class="tt">订阅升级</span>
+          <span class="dd">连续包月 8 折</span>
         </a>
         <a data-link="guide">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-          <span class="tt">操作指南</span>
-          <span class="dd">快速上手</span>
+          <span class="tt">产品介绍</span>
+          <span class="dd">了解千问办公</span>
         </a>
         <a data-link="aics">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-3.9-.9L3 20l1-4.9a8.3 8.3 0 0 1-1-4A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span>
           <span class="tt">在线咨询</span>
           <span class="dd">即时解答</span>
         </a>
+      </div>
+      <div class="pricenote">
+        个人标准版 96 元/月，连续包月 8 折 76 元/月，年付 7 折 806 元/年<br/>
+        个人高级版 196 元/月，连续包月 8 折 156 元/月，年付 7 折 1646 元/年
       </div>
     </div>
 
@@ -275,10 +299,28 @@
   <div class="toast" id="toast">正在打开新页面…</div>
 
 <script>
+  /* ⓪ 洒金背景：仅桌面端生成粒子（手机端全屏面板下不可见，已隐藏） */
+  (function(){
+    if(window.innerWidth <= 520 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const box = document.getElementById("gold");
+    for(let i=0;i<36;i++){
+      const s = document.createElement("i");
+      const size = 2 + Math.random()*4;                 // 2~6px
+      s.style.width = s.style.height = size.toFixed(1)+"px";
+      s.style.left = (Math.random()*100).toFixed(2)+"vw";
+      s.style.setProperty("--o", (0.35+Math.random()*0.45).toFixed(2));
+      s.style.setProperty("--dx", ((Math.random()-0.5)*120).toFixed(0)+"px");
+      const dur = 9 + Math.random()*14;                 // 9~23s 上升
+      s.style.animationDuration = dur.toFixed(1)+"s, "+(1.2+Math.random()*2).toFixed(1)+"s";
+      s.style.animationDelay = (-Math.random()*dur).toFixed(1)+"s, 0s";
+      box.appendChild(s);
+    }
+  })();
+
   /* ① 链接集中管理：上线只改这几处（暂时都先跳官网） */
   const LINKS = {
-    purchase: "https://www.dingtalk.com/",   // 一键购买 / 价格规则
-    guide:    "https://www.dingtalk.com/",   // 使用指南 / 操作指南（暂跳官网）
+    purchase: "https://www.dingtalk.com/",   // 订阅升级（自助购）
+    guide:    "https://www.dingtalk.com/",   // 产品介绍（暂跳官网）
     privacy:  "https://www.dingtalk.com/",   // 隐私政策
     aics:     "https://smart-customer.dingtalk.com/smart/session?channelCode=93d799717a774c65b25183a635e7a39a" // 在线咨询
   };
