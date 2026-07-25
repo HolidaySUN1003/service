@@ -335,6 +335,11 @@
   const btn  = document.getElementById("submitBtn");
   const toast= document.getElementById("toast");
 
+  /* ②b 渠道追踪：从链接读取 ?ch=人群 与 ?card=卡片版本，随提交一起上报 */
+  const _q   = new URLSearchParams(location.search);
+  const CHANNEL = (_q.get("ch")   || "").trim().slice(0, 40);
+  const CARD    = (_q.get("card") || "").trim().slice(0, 40);
+
   document.querySelectorAll("a[data-link]").forEach(a=>{
     a.href = LINKS[a.dataset.link]; a.target="_blank"; a.rel="noopener";
     a.addEventListener("click", ()=> showToast("正在打开新页面…"));
@@ -366,6 +371,8 @@
 
     const payload = {
       phone, company, size, title,
+      channel: CHANNEL,
+      card: CARD,
       submittedAt: new Date().toISOString(),
       source: (location.href || "push-link"),
       ua: navigator.userAgent
