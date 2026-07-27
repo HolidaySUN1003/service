@@ -202,9 +202,9 @@
 
     <!-- 活动 banner：新品上线 · 订阅升级 -->
     <div class="promo" id="promo">
-      <span class="tag">限量抢购</span>
+      <span class="tag">限时权益</span>
       <span class="txt">
-        <b>新购企业年费会员，加赠 2,000 积分</b>
+        <b>新用户注册即赠 2,000 积分</b>
         <small>个人版连续包月 8 折、年付 7 折</small>
       </span>
       <span class="go">订阅升级
@@ -314,7 +314,7 @@
 
   /* ① 链接集中管理：上线只改这几处（暂时都先跳官网） */
   const LINKS = {
-    purchase: "https://qwenwork.cn/pricing?spm=7054cd9.2ef5001f.0.0.5ea37722t4Y1h0",   // 订阅升级 / 自助购 banner → 官网定价页
+    purchase: "https://qwenwork.cn/pricing",   // 订阅升级 / 自助购 banner → 官网定价页
     guide:    "https://learn.qwenwork.host/",   // 新人指南
     aics:     "https://smart-customer.dingtalk.com/smart/session?spm=7054cd9.cb99008.0.0.335199adXLduBP&channelCode=c7f111358462449ab091aac8268ee108" // 在线咨询
   };
@@ -329,7 +329,7 @@
   const btn  = document.getElementById("submitBtn");
   const toast= document.getElementById("toast");
 
-  /* ②b 渠道追踪：从链接读取 ?ch=人群 与 ?card=卡片版本，随提交一起上报 */
+  /* ②b 渠道追个：从链接读取 ?ch=人群 与 ?card=卡片版本，随提交一起上报 */
   const _q   = new URLSearchParams(location.search);
   const CHANNEL = (_q.get("ch")   || "").trim().slice(0, 40);
   const CARD    = (_q.get("card") || "").trim().slice(0, 40);
