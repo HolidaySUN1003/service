@@ -6,31 +6,32 @@
 <title>千问办公 · 在线服务</title>
 <style>
   :root{
-    --accent:#2F6BFF;--accent-deep:#1F55E0;--accent-soft:#F0F5FF;
-    --grad-a:#2F6BFF;--grad-b:#6A4DFF;
-    --ink:#17181C;--ink-2:#5C6272;--ink-3:#9AA0AD;--line:#ECEEF3;
+    --accent:#12A05A;--accent-deep:#0C7C45;--accent-soft:#EAF7EF;
+    --mint:#4CE285;--mint-2:#37D07A;--dark:#0F1511;
+    --grad-a:#4CE285;--grad-b:#37D07A;
+    --ink:#18181B;--ink-2:#5E655E;--ink-3:#9DA39A;--line:#E8ECE7;
     --err:#F5484B;
     --ease:cubic-bezier(.2,.6,.2,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   body{
-    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-family:"Alibaba PuHuiTi",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
     color:var(--ink);-webkit-font-smoothing:antialiased;
     background:
-      radial-gradient(1100px 560px at 12% -8%, rgba(255,236,190,.55), transparent 60%),
-      radial-gradient(900px 520px at 108% 12%, rgba(214,226,255,.6), transparent 55%),
-      radial-gradient(760px 480px at 50% 115%, rgba(255,224,178,.35), transparent 60%),
-      linear-gradient(165deg,#FDFBF6 0%,#F7F4EE 45%,#F2EFFA 100%);
+      radial-gradient(1100px 560px at 12% -8%, rgba(76,226,133,.12), transparent 60%),
+      radial-gradient(900px 520px at 108% 12%, rgba(76,226,133,.08), transparent 55%),
+      radial-gradient(760px 480px at 50% 115%, rgba(55,208,122,.07), transparent 60%),
+      linear-gradient(165deg,#FFFFFF 0%,#F6F8F4 52%,#EEF4EE 100%);
     min-height:100vh;min-height:100dvh;
     display:flex;justify-content:center;
     padding:28px 16px;
   }
 
-  /* 洒金动态背景（面板之下的氛围层） */
+  /* 微光粒子背景（面板之下的氛围层，薄荷绿） */
   .gold{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
   .gold i{position:absolute;bottom:-3vh;display:block;border-radius:50%;
-    background:radial-gradient(circle at 35% 35%, #FFF3C9 0%, #F5CE6B 45%, #D9A63C 100%);
-    box-shadow:0 0 6px 1px rgba(233,190,90,.55);
+    background:radial-gradient(circle at 35% 35%, #EAFBF0 0%, #7EE8A8 45%, #3FD787 100%);
+    box-shadow:0 0 6px 1px rgba(76,226,133,.45);
     opacity:0;animation:rise linear infinite, glint ease-in-out infinite alternate}
   @keyframes rise{
     0%{transform:translateY(0) translateX(0);opacity:0}
@@ -43,13 +44,13 @@
   /* ===== 480 宽一体化面板 ===== */
   .panel{width:100%;max-width:480px;background:#fff;border-radius:16px;overflow:hidden;
     position:relative;z-index:1;margin:auto;
-    box-shadow:0 24px 55px -22px rgba(122,98,36,.28),0 4px 16px -6px rgba(60,60,90,.08);
-    border:1px solid rgba(228,220,200,.7);
+    box-shadow:0 24px 55px -22px rgba(16,40,28,.22),0 4px 16px -6px rgba(30,50,40,.08);
+    border:1px solid rgba(220,230,222,.85);
     display:flex;flex-direction:column}
 
   /* 门头：品牌 + 使用指南 */
   .titlebar{display:flex;align-items:center;gap:10px;padding:13px 16px;
-    background:linear-gradient(90deg,#EAF1FF 0%,#F6F9FF 60%,#EFEAFF 100%);
+    background:linear-gradient(90deg,#FFFFFF 0%,#F6FBF8 100%);
     border-bottom:1px solid var(--line)}
   .titlebar .brand{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
   .titlebar .brand img{width:24px;height:24px;border-radius:6px;display:block}
@@ -57,33 +58,33 @@
   .titlebar .guide-link{display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;
     font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;
     padding:6px 12px;border-radius:8px;transition:background .15s var(--ease)}
-  .titlebar .guide-link:hover{background:rgba(47,107,255,.08)}
+  .titlebar .guide-link:hover{background:rgba(18,160,90,.09)}
   .titlebar .guide-link svg{width:14px;height:14px}
 
   /* 活动 banner：渐变主视觉，引导自助购 */
   .promo{position:relative;display:flex;align-items:center;gap:11px;margin:14px 16px 0;
     padding:13px 14px;border-radius:13px;cursor:pointer;overflow:hidden;
     background:linear-gradient(120deg,var(--grad-a) 0%,var(--grad-b) 100%);
-    box-shadow:0 10px 22px -10px rgba(58,90,255,.55);
+    box-shadow:0 10px 22px -10px rgba(55,208,122,.6);
     transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
-  .promo:hover{transform:translateY(-1px);box-shadow:0 14px 26px -10px rgba(58,90,255,.65)}
+  .promo:hover{transform:translateY(-1px);box-shadow:0 14px 26px -10px rgba(55,208,122,.72)}
   .promo::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
     background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);
     transform:skewX(-20deg);animation:sheen 4.5s var(--ease) infinite}
   @keyframes sheen{0%,55%{left:-70%}85%,100%{left:130%}}
   .promo .tag{flex:0 0 auto;font-size:10.5px;font-weight:700;color:#fff;
-    background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);
+    background:var(--dark);border:1px solid var(--dark);
     padding:3px 8px;border-radius:6px;letter-spacing:.5px}
   .promo .txt{flex:1;min-width:0}
-  .promo .txt b{display:block;font-size:13.5px;font-weight:700;color:#fff;
+  .promo .txt b{display:block;font-size:13.5px;font-weight:700;color:var(--dark);
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .promo .txt small{display:block;font-size:10.5px;color:rgba(255,255,255,.78);margin-top:2px}
+  .promo .txt small{display:block;font-size:10.5px;color:rgba(15,21,17,.72);margin-top:2px}
   .promo .go{flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;
-    font-size:12px;font-weight:700;color:var(--accent);background:#fff;
-    padding:6px 11px;border-radius:8px;box-shadow:0 3px 8px rgba(10,30,90,.18)}
-  .promo .x{position:absolute;top:4px;right:6px;color:rgba(255,255,255,.75);font-size:13px;
+    font-size:12px;font-weight:700;color:var(--dark);background:#fff;
+    padding:6px 11px;border-radius:8px;box-shadow:0 3px 8px rgba(10,40,25,.18)}
+  .promo .x{position:absolute;top:4px;right:6px;color:rgba(15,21,17,.55);font-size:13px;
     line-height:1;padding:3px 5px;border-radius:5px;z-index:2}
-  .promo .x:hover{color:#fff;background:rgba(255,255,255,.15)}
+  .promo .x:hover{color:var(--dark);background:rgba(15,21,17,.1)}
 
   /* 品牌 logo 区 */
   .hero{display:flex;justify-content:center;padding:22px 20px 2px}
@@ -113,11 +114,11 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
   .submit{width:100%;height:46px;margin-top:14px;border:none;cursor:pointer;border-radius:11px;
-    background:var(--accent);color:#fff;font-size:14.5px;font-weight:600;
+    background:var(--dark);color:#fff;font-size:14.5px;font-weight:600;
     display:flex;align-items:center;justify-content:center;gap:8px;
     transition:background .15s var(--ease),transform .15s var(--ease);
-    box-shadow:0 10px 20px -8px rgba(47,107,255,.6)}
-  .submit:hover{background:var(--accent-deep)}
+    box-shadow:0 10px 20px -8px rgba(15,21,17,.45)}
+  .submit:hover{background:#1E2A22}
   .submit:active{transform:scale(.99)}
   .submit:disabled{opacity:.6;cursor:default}
   .submit .ld{width:15px;height:15px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;
@@ -139,8 +140,8 @@
     border:1px solid var(--line);border-radius:12px;padding:13px 4px 11px;cursor:pointer;
     transition:border-color .18s var(--ease),background .18s var(--ease),
       transform .18s var(--ease),box-shadow .18s var(--ease)}
-  .quick a:hover{border-color:#C9D9FF;background:#FAFBFF;transform:translateY(-2px);
-    box-shadow:0 8px 18px -10px rgba(47,107,255,.35)}
+  .quick a:hover{border-color:#BEE9CE;background:#F6FBF8;transform:translateY(-2px);
+    box-shadow:0 8px 18px -10px rgba(18,160,90,.35)}
   .quick .ic{width:34px;height:34px;margin:0 auto 7px;border-radius:10px;
     background:var(--accent-soft);display:flex;align-items:center;justify-content:center}
   .quick .ic svg{width:18px;height:18px;stroke:var(--accent)}
@@ -166,10 +167,10 @@
   .done .btns{display:flex;gap:10px;margin-top:20px}
   .done .btns a,.done .btns button{height:40px;padding:0 20px;border-radius:10px;font-size:13.5px;font-weight:600;
     cursor:pointer;display:inline-flex;align-items:center;transition:.15s;text-decoration:none}
-  .done .again{border:1px solid #D5E1FF;background:#fff;color:var(--accent)}
+  .done .again{border:1px solid #BEE9CE;background:#fff;color:var(--accent)}
   .done .again:hover{background:var(--accent-soft)}
-  .done .kefu{border:none;background:var(--accent);color:#fff}
-  .done .kefu:hover{background:var(--accent-deep)}
+  .done .kefu{border:none;background:var(--dark);color:#fff}
+  .done .kefu:hover{background:#1E2A22}
 
   /* 手机端全屏铺开 */
   @media (max-width:520px){
@@ -319,7 +320,7 @@
 
   /* ① 链接集中管理：上线只改这几处（暂时都先跳官网） */
   const LINKS = {
-    purchase: "https://www.dingtalk.com/",   // 订阅升级（自助购）
+    purchase: "https://qwenwork.cn/pricing?spm=7054cd9.2ef5001f.0.0.5ea37722t4Y1h0",   // 订阅升级 / 自助购 banner → 官网定价页
     guide:    "https://learn.qwenwork.host/",   // 新人指南
     privacy:  "https://www.dingtalk.com/",   // 隐私政策
     aics:     "https://smart-customer.dingtalk.com/smart/session?spm=7054cd9.cb99008.0.0.335199adXLduBP&channelCode=c7f111358462449ab091aac8268ee108" // 在线咨询
