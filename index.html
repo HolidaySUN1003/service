@@ -329,7 +329,7 @@
   const btn  = document.getElementById("submitBtn");
   const toast= document.getElementById("toast");
 
-  /* ②b 渠道追个：从链接读取 ?ch=人群 与 ?card=卡片版本，随提交一起上报 */
+  /* ②b 渠道追踪：从链接读取 ?ch=人群 与 ?card=卡片版本，随提交一起上报 */
   const _q   = new URLSearchParams(location.search);
   const CHANNEL = (_q.get("ch")   || "").trim().slice(0, 40);
   const CARD    = (_q.get("card") || "").trim().slice(0, 40);
